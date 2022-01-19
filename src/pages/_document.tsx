@@ -15,7 +15,6 @@ export default class App extends Document {
                         rel="stylesheet"
                     />
 
-                    <title>Ignews</title>
                 </Head>
                 <body>
                     <Main />
