@@ -3,7 +3,7 @@ import { FiX } from "react-icons/fi"
 import styles from "./styles.module.scss";
 
 export function SignInButton() {
-    const isUserLoggedIn = false;
+    const isUserLoggedIn = true;
 
     return isUserLoggedIn ? (
         <>
@@ -13,7 +13,7 @@ export function SignInButton() {
                 <FiX color='#737380' className={styles.closeIcon} />
             </button>
         </>
-    ): (
+    ) : (
         <>
             <button className={styles.singInButton} type="button">
                 <FaGithub color="#eba417" />
