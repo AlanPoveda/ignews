@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
-import { stripe } from '../../../services/stripe'
+import { stripe } from '../../services/stripe'
 
-export default async function CreateSessionCheckout(req: NextApiRequest, res: NextApiResponse) {
+export default async function SubscriptRequestSession(req: NextApiRequest, res: NextApiResponse) {
 
 
     //Login fazendo a subscrição dentro do stripe
-    if(req.method === 'POST'){
+    if (req.method === 'POST') {
         //Pegando a info da pessoa logada nos cookies, que é única forma de poder pegar a informação no back-end
         const session = await getSession({ req })
 
@@ -21,14 +21,14 @@ export default async function CreateSessionCheckout(req: NextApiRequest, res: Ne
             line_items: [{
                 price: 'price_1KKW6zAV19k8lLPsjd5pHrlY', quantity: 1
             }],
-            mode:'subscription', 
+            mode: 'subscription',
             allow_promotion_codes: true,
             success_url: process.env.STRIPE_SUCCESS_URL,
             cancel_url: process.env.STRIPE_CANCEL_URL
         })
 
-        return res.status(200).json({sessionId: stripeCheckoutSession.id})
-    }else{
+        return res.status(200).json({ sessionId: stripeCheckoutSession.id })
+    } else {
         res.setHeader('Allow', 'POST')
         res.status(405).end('Method not allowed')
     }
