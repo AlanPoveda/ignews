@@ -4,6 +4,7 @@ import { stripe } from '../../services/stripe'
 
 //Stream
 import { Readable } from 'stream'
+import { saveSubscription } from "./_lib/manageSubscription";
 
 //Funcao para ler as streams
 
@@ -51,7 +52,28 @@ export default async function webHookResponse(req: NextApiRequest, res: NextApiR
 
         const { type } = event;
 
+
         if(relevantEvents.has(type)){
+          try{
+            switch (type){
+                case 'checkout.session.completed':
+                    //Pegando o subscription, e ver todos os métodos
+                    const checkoutSession = event.data.object as Stripe.Checkout.Session;
+
+                    await saveSubscription(
+                        checkoutSession.subscription.toString(),
+                        checkoutSession.customer.toString()
+
+                    )
+
+                    break;
+                default:
+                    throw new Error('Unhandled error')
+          } 
+        } catch(err){
+            return res.json({ error: 'Webhook handler error'})
+
+        }
             console.log('Évento recebido ', event)
         }
 
