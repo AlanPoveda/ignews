@@ -30,7 +30,9 @@ export const config = {
 
 //Pegando os valores relevantes
 const relevantEvents = new Set([
-    "checkout.session.completed"
+    "checkout.session.completed",
+    'customer.subscription.updated',
+    'customer.subscription.deleted'
 ])
 
 export default async function webHookResponse(req: NextApiRequest, res: NextApiResponse) {
@@ -53,28 +55,40 @@ export default async function webHookResponse(req: NextApiRequest, res: NextApiR
         const { type } = event;
 
 
-        if(relevantEvents.has(type)){
-          try{
-            switch (type){
-                case 'checkout.session.completed':
-                    //Pegando o subscription, e ver todos os métodos
-                    const checkoutSession = event.data.object as Stripe.Checkout.Session;
+        if (relevantEvents.has(type)) {
 
-                    await saveSubscription(
-                        checkoutSession.subscription.toString(),
-                        checkoutSession.customer.toString()
+            try {
+                switch (type) {
 
-                    )
+                    case 'customer.subscription.updated':
+                    case 'customer.subscription.deleted':
+                        const subscription = event.data.object as Stripe.Subscription;
 
-                    break;
-                default:
-                    throw new Error('Unhandled error')
-          } 
-        } catch(err){
-            return res.json({ error: 'Webhook handler error'})
+                        await saveSubscription(
+                            subscription.id,
+                            subscription.customer.toString(),
+                            false
+                        )
 
-        }
-            console.log('Évento recebido ', event)
+                        break
+                    case 'checkout.session.completed':
+                        //Pegando o subscription, e ver todos os métodos
+                        const checkoutSession = event.data.object as Stripe.Checkout.Session;
+
+                        await saveSubscription(
+                            checkoutSession.subscription.toString(),
+                            checkoutSession.customer.toString(),
+                            true
+                        )
+
+                        break;
+                    default:
+                        throw new Error('Unhandled error')
+                }
+            } catch (err) {
+                return res.json({ error: 'Webhook handler error' })
+
+            }
         }
 
         res.json({ 'message': 'OK' })

@@ -1,10 +1,12 @@
 import { fauna } from '../../../services/fauna'
 import { query as q } from 'faunadb'
 import { stripe } from '../../../services/stripe'
+import { FaUndoAlt } from 'react-icons/fa'
 
 export async function saveSubscription(
     subscriptionId: string,
     customerId: string,
+    createdAction = false
 ) {
     //Buscar o usuaário no banco do fauna, com stripe custumer id
     //Salvar os dados da subscription no fauna db
@@ -33,15 +35,33 @@ export async function saveSubscription(
         status: subscription.status,
         price_id: subscription.items.data[0].price.id,
     }
+    //Aqui vai verificar se esta criado, ou atualiza com as novas informações
 
-
-
-
-    await fauna.query(
-        q.Create(
-            q.Collection('subscriptions'),
-            { data: subscriptionData }
+    if(createdAction){
+        await fauna.query(
+            q.Create(
+                q.Collection('subscriptions'),
+                { data: subscriptionData }
+            )
         )
-    )
+    }else{
+        await fauna.query(
+            q.Replace(
+                q.Select(
+                    'ref',
+                    q.Get(
+                        q.Match(
+                            q.Index('subscription_by_id'),
+                            subscriptionId,
+                        )
+                    )
+                ),
+                { data: subscriptionData }
+            )
+        )
+
+    }
+
+  
 
 }
