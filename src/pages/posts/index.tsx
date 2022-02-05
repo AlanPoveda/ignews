@@ -1,6 +1,8 @@
 import styles from './styles.module.scss';
 import Head from 'next/head';
-
+import { GetStaticProps } from 'next';
+import { getPrismicClient } from '../../services/prismic';
+import Prismic from '@prismicio/client' 
 
 
 
@@ -38,4 +40,24 @@ export default function Posts(){
         </>
     );
 
+}
+
+
+//Chamada da api apra carregar a página uma unica vez, ainda mais para não consumir a banda
+export const getStaticProps: GetStaticProps = async () => {
+
+    const prismic = await getPrismicClient()
+
+    const response = await prismic.query([
+        Prismic.predicates.at('document.type', 'post' )
+    ], {
+        fetch: ['title', 'content'],
+        pageSize: 100
+    })
+
+    console.log(JSON.stringify(response, null, 2))
+
+    return {
+        props: {}
+    }
 }
