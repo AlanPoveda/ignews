@@ -33,7 +33,7 @@ export default NextAuth({
                   query.Get(
                     query.Match(
                       query.Index('user_by_email'),
-                      query.Casefold(session.user.name)
+                      query.Casefold(session.user.email)
                     )
                   )
                 )
