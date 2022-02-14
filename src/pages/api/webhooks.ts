@@ -44,6 +44,7 @@ export default async function webHookResponse(req: NextApiRequest, res: NextApiR
 
         let event: Stripe.Event;
 
+        console.log(event)
 
         try {
             event = stripe.webhooks.constructEvent(buff, secret, process.env.STRIPE_WEBHOOK_SECRET_KEY)

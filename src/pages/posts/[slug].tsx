@@ -50,7 +50,9 @@ export const getServerSideProps: GetServerSideProps = async ({
 
     console.log(session)
 
-    if(session == null || !session.activeSubscription){
+    //session is acativeSbscirption but if logged, if not logged, return null
+
+    if(!session?.activeSubscription){
         return {
             redirect:{
                 destination: '/',
