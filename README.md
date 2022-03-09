@@ -6,6 +6,7 @@
 <p align="center">
     <img src="/public/ReadmeImgs/ignews.png" width="700" height="400">
 </p>
+
 ### Ignews is a RocketSeat application 
 
 Technologies 💻
@@ -18,6 +19,7 @@ Technologies 💻
 - [Faunadb](https://fauna.com/features)
 - [Prismisc](https://prismic.io/)
 - [Vercel](https://vercel.com/)
+
 
 The name for this technologies and application is JAMslack
 
