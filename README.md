@@ -5,7 +5,7 @@
 
 ## Ignews Website
 <p align="center">
-    <img src="/public/ReadmeImgs/ignews.png" width="700" height="600">
+    <img src="/public/ReadmeImgs/ignews.png" width="700" height="400">
 </p>
 ### Ignews is a application to learn React
 
