@@ -3,6 +3,9 @@
 ![Project Ignews](https://img.shields.io/badge/AlanPoveda-Ignews-green)
 ![License](https://img.shields.io/github/license/AlanPoveda/ignews)
 
+## Ignews Website
+<img src="/public/ReadmeImgs/ignews.png" width="300" height="200">
+
 ### Ignews is a application to learn React
 
 Technologies
