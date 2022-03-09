@@ -1,6 +1,7 @@
 # Ignews 📝
 
-[](https://img.shields.io/badge/AlanPoveda-Ignews-green)
+![Project Ignews](https://img.shields.io/badge/AlanPoveda-Ignews-green)
+![License](https://img.shields.io/github/license/AlanPoveda/ignews)
 
 ### Ignews is a application to learn React
 
